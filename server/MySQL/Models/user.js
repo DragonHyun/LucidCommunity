@@ -1,57 +1,84 @@
 const Sequelize = require('sequelize');
-
-module.exports = class User extends Sequelize.Model {
-    static init(sequelize) {
-        return super.init({
-            user_id: {
-                type: Sequelize.STRING(20),
-                allowNull: false,
-                unique: true
-            },
-            password: {
-                type: Sequelize.STRING,
-                allowNull: false,
-            },
-            email: {
-                type: Sequelize.STRING(30),
-                allowNull: false,
+module.exports = function (sequelize, DataTypes) {
+    return sequelize.define('user', {
+        id: {
+            autoIncrement: true,
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            primaryKey: true,
+            comment: "유저인덱스"
+        },
+        account_id: {
+            type: DataTypes.STRING(45),
+            allowNull: false,
+            comment: "아이디"
+        },
+        password: {
+            type: DataTypes.STRING(100),
+            allowNull: false,
+            comment: "비밀번호"
+        },
+        name: {
+            type: DataTypes.STRING(45),
+            allowNull: false,
+            comment: "이름"
+        },
+        age: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            comment: "나이"
+        },
+        sex: {
+            type: DataTypes.ENUM('M', 'W', 'U'),
+            allowNull: false,
+            comment: "성별"
+        },
+        email: {
+            type: DataTypes.STRING(45),
+            allowNull: false,
+            comment: "이메일주소"
+        },
+        nickname: {
+            type: DataTypes.STRING(45),
+            allowNull: false,
+            comment: "닉네임"
+        },
+        profile_image_url: {
+            type: DataTypes.TEXT,
+            allowNull: false,
+            comment: "프로필이미지"
+        },
+        created_at: {
+            type: DataTypes.DATE,
+            allowNull: false,
+            comment: "생성시점",
+            defaultValue: DataTypes.NOW
+        },
+        updated_at: {
+            type: DataTypes.DATE,
+            allowNull: false,
+            comment: "수정시점",
+            defaultValue: DataTypes.NOW
+        },
+        deleted_at: {
+            type: DataTypes.DATE,
+            allowNull: true,
+            comment: "삭제시점"
+        }
+    }, {
+        sequelize,
+        tableName: 'user',
+        hasTrigger: true,
+        timestamps: false,
+        indexes: [
+            {
+                name: "PRIMARY",
                 unique: true,
-                validate: {
-                    isEmail: true,
-                }
+                using: "BTREE",
+                fields: [
+                    { name: "id" },
+                ]
             },
-            name: {
-                type: Sequelize.STRING(20),
-                allowNull: false,
-            },
-            gender: {
-                type: Sequelize.ENUM('m', 'w', 'u'),
-                allowNull: false,
-            },
-            age: {
-                type: Sequelize.INTEGER.UNSIGNED,
-                allowNull: false,
-            },
-            nickname: {
-                type: Sequelize.STRING(20),
-                allowNull: false,
-            }
-        }, {
-            sequelize,
-            timestamps: true,
-            paranoid: true,
-            createdAt: 'created_at',
-            updatedAt: 'updated_at',
-            deletedAt: 'deleted_at',
-            underscored: true,
-            modelName: 'User',
-            tableName: 'users',
-            charset: 'utf8',
-            collate: 'utf8_general_ci',
-        });
-    }
-
-    static associate(db) {
-        db.User.hasMany(db.Comment, { foreignKey: 'commenter', sourceKey: 'id' });
-    }
+        ]
+    });
 };

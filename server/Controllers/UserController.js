@@ -44,17 +44,24 @@ const userController = {
     },
 
     signUp: async (req, res, next) => {
-        const { userId, password, email, name, gender, age, nickname, isUnique } = req.body;
+        const { account_id, password, name, age, sex, email, nickname } = req.body;
         try {
-            if (!await isDefined(userId, password, email, name, gender, age, nickname, isUnique)) {
+            if (!await isDefined(account_id, password, name, age, sex, email, nickname)) {
                 throw new CustomError(450, '필수 요소가 존재 하지 않습니다.');
             }
-            if (!isUnique) {
-                //중복검사를 했으면 validation 검사도 한것임.
-                throw new CustomError(400, '중복 검사를 실시하지 않았습니다.');
+
+            if (!await UserService.isIdUnique(account_id)) {
+                throw new CustomError(401, '아이디가 중복됩니다.');
+            }
+            if (!await UserService.isEmailUnique(email)) {
+                throw new CustomError(402, '이메일이 중복됩니다.');
+            }
+            if (!await UserService.isNicknameUnique(nickname)) {
+                throw new CustomError(403, '닉네임이 중복됩니다.');
             }
 
-            await UserService.createUser(userId, password, email, name, gender, age, nickname);
+            //TODO: 1차로 아이디, 닉네임 중복검사를 통과 했어. 그 이후 회원가입하는 도중에 내가 쓰려던 아이디를 다른 사람이 그새 만들어버리면 어떡하지?
+            await UserService.signUp(account_id, password, name, age, sex, email, nickname);
 
             res.status(200).json({
                 isSuccess: true,
@@ -67,9 +74,9 @@ const userController = {
     },
 
     signIn: async (req, res, next) => {
-        const { userId, password } = req.body;
+        const { account_id, password } = req.body;
         try {
-            if (!await isDefined(userId, password)) {
+            if (!await isDefined(account_id, password)) {
                 throw new CustomError(450, '필수요소가 없습니다.');
             }
             passport.authenticate('local', { session: false }, (err, user, info) => {

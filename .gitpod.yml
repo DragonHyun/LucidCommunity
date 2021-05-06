@@ -1,0 +1,10 @@
+vscode:
+  extensions:
+    - pkief.material-icon-theme@4.6.0:3044629cd6eec8b80b5b1cbb91b52cbc
+    - wayou.vscode-todo-highlight@1.0.4:4c48ea415b7bd6176f1d4640ede5a01c
+    - coenraads.bracket-pair-colorizer@1.0.61:fa3401caa00b5b4897921a5ddb2cd8cd
+    - steoates.autoimport@1.5.3:4ebdea614104abbdf0acac0259a622bd
+    - dbaeumer.vscode-eslint@2.1.8:d3668785b2744386867631d79537552a
+    - esbenp.prettier-vscode@6.3.2:13e527ae62035854197198eedd2bc84f
+    - jpoissonnier.vscode-styled-components@1.5.2:3b94ebf2b54c2d3dc3f25129a80ead34
+    - cweijan.vscode-mysql-client2@3.6.8:f38520fce0e95bcd0036c3ca324f99e9

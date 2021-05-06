@@ -1,4 +1,4 @@
-const { User } = require('../Models');
+const User = require('../Models').user;
 const sequelize = require('sequelize');
 const CustomError = require('../../util/custom-error');
 const bcrypt = require('bcrypt');
@@ -10,7 +10,8 @@ const userService = {
             const result = await User.findOne({
                 attributes: [[sequelize.fn('COUNT', sequelize.col('id')), 'count']],
                 where: {
-                    user_id: value
+                    account_id: value,
+                    deleted_at: null
                 }
             })
 
@@ -26,7 +27,8 @@ const userService = {
             const result = await User.findOne({
                 attributes: [[sequelize.fn('COUNT', sequelize.col('id')), 'count']],
                 where: {
-                    email: value
+                    email: value,
+                    deleted_at: null
                 }
             })
 
@@ -42,7 +44,8 @@ const userService = {
             const result = await User.findOne({
                 attributes: [[sequelize.fn('COUNT', sequelize.col('id')), 'count']],
                 where: {
-                    nickname: value
+                    nickname: value,
+                    deleted_at: null
                 }
             })
 
@@ -53,20 +56,22 @@ const userService = {
         }
     },
 
-    createUser: async (userId, password, email, name, gender, age, nickname) => {
+    signUp: async (account_id, password, name, age, sex, email, nickname) => {
+        const default_profile_image_url = "default_profile_image_url";
         try {
             const salt = await bcrypt.genSalt(saltRounds);
             const hash = await bcrypt.hash(password, salt);
 
             password = hash;
             const user = await User.create({
-                user_id: userId,
+                account_id: account_id,
                 password: password,
-                email: email,
                 name: name,
-                gender: gender,
                 age: age,
-                nickname: nickname
+                sex: sex,
+                email: email,
+                nickname: nickname,
+                profile_image_url: default_profile_image_url
             })
 
             return user;

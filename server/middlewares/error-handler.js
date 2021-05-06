@@ -1,5 +1,5 @@
 const CustomError = require('../util/custom-error');
-const { logger } = require('../config/winston');
+//const { logger } = require('../config/winston');
 
 module.exports = (err, req, res, next) => {
     const errObj = {
@@ -17,7 +17,7 @@ module.exports = (err, req, res, next) => {
     }
 
     if (err instanceof CustomError) {
-        logger.error(errObj);
+        //logger.error(errObj);
         return res.status(400).json({
             isSuccess: false,
             code: err.code,
@@ -25,6 +25,6 @@ module.exports = (err, req, res, next) => {
         });
     }
     console.log(err);
-    logger.error(errObj);
+    //logger.error(errObj);
     return res.status(500).json(err);
 }

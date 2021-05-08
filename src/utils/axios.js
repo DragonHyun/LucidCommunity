@@ -1,6 +1,5 @@
-import axios from 'axios'
-
-const DOMAIN = '132.226.22.227:5000';
+import axios from 'axios';
+const DOMAIN = 'http://132.226.22.227:5000';
 axios.defaults.withCredentials = true;
 
 export const request = (method, url, data) => {

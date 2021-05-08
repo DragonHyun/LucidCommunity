@@ -7,4 +7,3 @@ vscode:
     - dbaeumer.vscode-eslint@2.1.8:d3668785b2744386867631d79537552a
     - esbenp.prettier-vscode@6.3.2:13e527ae62035854197198eedd2bc84f
     - jpoissonnier.vscode-styled-components@1.5.2:3b94ebf2b54c2d3dc3f25129a80ead34
-    - cweijan.vscode-mysql-client2@3.6.8:f38520fce0e95bcd0036c3ca324f99e9

@@ -1,9 +1,9 @@
 {
     "compilerOptions": {
-        "plugins": [
-            {
-                "name": "typescript-styled-plugin"
-            }
-        ]
-    }
+        "module": "commonjs",
+        "target": "es6"
+    },
+    "include": [
+        "src/**/*"
+    ]
 }
